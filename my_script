@@ -1,0 +1,19 @@
+#!/bin/bash
+input_dir=$1
+output_dir=$2
+files=$(find $1 -type f)
+for file in $files
+do
+    f_name=${file##*/}
+    f_type=${f_name##*.}
+    f_name=${f_name%.*}
+    if [ -f "${2}/${f_name}.${f_type}" ]; then
+        i=1
+        while [ -f "${2}/${f_name}${i}.${f_type}" ]; do
+            i=$((i+1))
+        done
+        cp $file ${2}/${f_name}${i}.${f_type}
+    else
+        cp $file ${2}/${f_name}.${f_type}
+    fi
+done
